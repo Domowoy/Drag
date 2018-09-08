@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour
 {
-
+    private float bridgeZ = 278f;
 
 
     private float stairsPos = 0f;
@@ -13,6 +13,7 @@ public class Floor : MonoBehaviour
 
     void CreateGround()
     {
+    
         
 
         GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -130,30 +131,87 @@ public class Floor : MonoBehaviour
         stairY = stairY + 2;
         stairZ = stairZ + 5;
     }
+   
+    void CreateBridge(Transform parent)
+    {
+        GameObject bridge = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        bridge.transform.localScale = new Vector3(20, 0.5f, 2);
+        bridge.transform.Translate(0, 72, bridgeZ);
+        bridge.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
+        bridge.GetComponent<Renderer>().material.name = "Lila";
+        
+        bridge.name = "bridge";
+        
+        bridgeZ = bridgeZ + 3;
 
+    }
+    
+    void CreateBridgeSkeleton(Transform parent)
+    {
+
+        GameObject pLeft = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        pLeft.transform.localScale = new Vector3(0.5f, 0.5f, 110);
+        pLeft.transform.Translate(-10, 82, 329);
+        pLeft.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
+        pLeft.name = "pLeft";
+    
+        GameObject pRight = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        pRight.transform.localScale = new Vector3(0.5f, 0.5f, 110);
+        pRight.transform.Translate(10, 82, 329);
+        pRight.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
+        pRight.name = "pRight";
+ 
+        GameObject pMid = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        pMid.transform.localScale = new Vector3(1.0f, 0.5f, 110);
+        pMid.transform.Translate(0, 71.5f, 329);
+        pMid.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
+        pMid.name = "pMid";
+    
+        GameObject seule1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        seule1.transform.localScale = new Vector3(2, 14, 2);
+        seule1.transform.Translate(-10, 77, 274);
+        seule1.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
+        seule1.name = "seule1";
+
+        GameObject seule2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        seule2.transform.localScale = new Vector3(2, 14, 2);
+        seule2.transform.Translate(10, 77, 274);
+        seule2.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
+        seule2.name = "seule2";
+
+        GameObject seule3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        seule3.transform.localScale = new Vector3(2, 14, 2);
+        seule3.transform.Translate(-10, 77, 385);
+        seule3.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
+        seule3.name = "seule3";
+
+        GameObject seule4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        seule4.transform.localScale = new Vector3(2, 14, 2);
+        seule4.transform.Translate(10, 77, 385);
+        seule4.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
+        seule4.name = "seule4";
+   ;
+    }
 
    
-
     void Start()
     {
  
         CreateGround();
-
         
+        GameObject bridgeParent = new GameObject("Bridge");
         GameObject stairsParent = new GameObject("Stairs");
         
-
-
-    
-
+        CreateBridgeSkeleton(bridgeParent.transform);
+        
         for (float i = stairsPos; i < 35; i++)
         {
             CreateStairs(stairsParent.transform);
-           
-
+            CreateBridge(bridgeParent.transform);
         }
 
 
+   
      
         CreatePlatforms();
     }
