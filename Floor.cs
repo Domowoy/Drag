@@ -102,9 +102,9 @@ public class Floor : MonoBehaviour
         Platform(new Vector3(-90, 70, 800));
         Platform(new Vector3(-90, 70, 830));
         Platform(new Vector3(-90, 70, 860));
-        Platform(new Vector3(80, 70, 800)/*, false*/);
-        Platform(new Vector3(50, 70, 830)/*, false*/);
-        Platform(new Vector3(20, 70, 860)/*, false*/);
+        Platform(new Vector3(80, 70, 800));
+        Platform(new Vector3(50, 70, 830));
+        Platform(new Vector3(20, 70, 860));
     }
 
     void Platform(Vector3 pos)
