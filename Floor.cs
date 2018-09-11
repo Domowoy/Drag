@@ -13,6 +13,13 @@ public class Floor : MonoBehaviour
 
     void CreateGround()
     {
+         //implementierung der Todes-Zone
+         GameObject deadzone = new GameObject("Deadzone");
+         deadzone.transform.position = new Vector3(100, -50, 750);
+         deadzone.transform.localScale = new Vector3(1000, 4, 3000);
+         deadzone.AddComponent<DeadZone>();
+         deadzone.AddComponent<BoxCollider>().isTrigger = true;
+
         GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
         floor.transform.localScale = new Vector3(200, 4, 200);
         floor.transform.Translate(0, -2, 0);
@@ -95,9 +102,9 @@ public class Floor : MonoBehaviour
         Platform(new Vector3(-90, 70, 800));
         Platform(new Vector3(-90, 70, 830));
         Platform(new Vector3(-90, 70, 860));
-        Platform(new Vector3(80, 70, 800));
-        Platform(new Vector3(50, 70, 830));
-        Platform(new Vector3(20, 70, 860));
+        Platform(new Vector3(80, 70, 800)/*, false*/);
+        Platform(new Vector3(50, 70, 830)/*, false*/);
+        Platform(new Vector3(20, 70, 860)/*, false*/);
     }
 
     void Platform(Vector3 pos)
@@ -106,7 +113,6 @@ public class Floor : MonoBehaviour
         plane.transform.localScale = new Vector3(20, 4, 20);
         plane.transform.Translate(pos);
         plane.GetComponent<Renderer>().material.color = new Color(13 / 255f, 101 / 255f, 16 / 255f);
-       
     }
 
 
@@ -118,6 +124,7 @@ public class Floor : MonoBehaviour
         stairs.transform.Translate(0, stairY, stairZ);
         stairs.GetComponent<Renderer>().material.color = new Color(83 / 255f, 83 / 255f, 83 / 255f);
         stairs.GetComponent<Collider>().isTrigger = true;
+        stairs.AddComponent<Stair>();
         stairs.name = "Stairs";
 
         stairY = stairY + 2;
@@ -132,8 +139,6 @@ public class Floor : MonoBehaviour
         bridge.transform.Translate(0, 72, bridgeZ);
         bridge.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         bridge.GetComponent<Renderer>().material.name = "Lila";
-
-        bridge.name = "bridge";
         bridgeZ = bridgeZ + 3;
 
     }
@@ -152,6 +157,7 @@ public class Floor : MonoBehaviour
         pRight.transform.Translate(10, 82, 329);
         pRight.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         pRight.name = "pRight";
+
 
         GameObject pMid = GameObject.CreatePrimitive(PrimitiveType.Cube);
         pMid.transform.localScale = new Vector3(1.0f, 0.5f, 110);
@@ -172,20 +178,21 @@ public class Floor : MonoBehaviour
         seule2.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule2.name = "seule2";
 
+
         GameObject seule3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule3.transform.localScale = new Vector3(2, 14, 2);
         seule3.transform.Translate(-10, 77, 385);
         seule3.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule3.name = "seule3";
+  
 
         GameObject seule4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule4.transform.localScale = new Vector3(2, 14, 2);
         seule4.transform.Translate(10, 77, 385);
         seule4.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule4.name = "seule4";
-    }
 
-    
+    }
 
     void createStartpoint()
     {
@@ -196,10 +203,11 @@ public class Floor : MonoBehaviour
         start.name = "start";
     }
 
-    
+
+
+
     void Start()
     {
-
 
         CreateGround();
 
@@ -217,6 +225,5 @@ public class Floor : MonoBehaviour
         createStartpoint();
         CreatePlatforms();
     }
-
 
 }
