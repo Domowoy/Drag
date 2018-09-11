@@ -21,3 +21,4 @@ public class Stair: MonoBehaviour {
         GetComponent<Renderer>().material.color = initialColor;
     }
 }
+  
