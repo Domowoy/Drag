@@ -13,7 +13,7 @@ public class Floor : MonoBehaviour
 
     void CreateGround()
     {
-         //implementierung der Todes-Zone
+         //creating deadzone
          GameObject deadzone = new GameObject("Deadzone");
          deadzone.transform.position = new Vector3(100, -50, 750);
          deadzone.transform.localScale = new Vector3(1000, 4, 3000);
@@ -81,6 +81,7 @@ public class Floor : MonoBehaviour
         floor8.transform.localScale = new Vector3(30, 4, 30);
         floor8.transform.Translate(200, 70, 1361);
         floor8.GetComponent<Renderer>().material.color = new Color(13 / 255f, 101 / 255f, 16 / 255f);
+        floor8.AddComponent<MovingPlatforms>().turnBackOnCollisionOnly = true;
 
         floor8.name = "Boden8";
         GameObject floor9 = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -94,6 +95,7 @@ public class Floor : MonoBehaviour
         floor10.transform.localScale = new Vector3(30, 4, 30);
         floor10.transform.Translate(200, 70, 1070);
         floor10.GetComponent<Renderer>().material.color = new Color(13 / 255f, 101 / 255f, 16 / 255f);
+        floor10.AddComponent<MovingPlatforms>().turnBackOnCollisionOnly = true;
         floor10.name = "Boden10";
     }
 
@@ -113,6 +115,9 @@ public class Floor : MonoBehaviour
         plane.transform.localScale = new Vector3(20, 4, 20);
         plane.transform.Translate(pos);
         plane.GetComponent<Renderer>().material.color = new Color(13 / 255f, 101 / 255f, 16 / 255f);
+        plane.AddComponent<Rigidbody>().isKinematic = true;
+        plane.AddComponent<MovingPlatforms>().turnBackOnCollisionOnly = false;
+        plane.name = "plane";
     }
 
 
@@ -139,6 +144,7 @@ public class Floor : MonoBehaviour
         bridge.transform.Translate(0, 72, bridgeZ);
         bridge.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         bridge.GetComponent<Renderer>().material.name = "Lila";
+        bridge.name = "bridge";
         bridgeZ = bridgeZ + 3;
 
     }
@@ -158,7 +164,6 @@ public class Floor : MonoBehaviour
         pRight.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         pRight.name = "pRight";
 
-
         GameObject pMid = GameObject.CreatePrimitive(PrimitiveType.Cube);
         pMid.transform.localScale = new Vector3(1.0f, 0.5f, 110);
         pMid.transform.Translate(0, 71.5f, 329);
@@ -171,28 +176,25 @@ public class Floor : MonoBehaviour
         seule1.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule1.name = "seule1";
 
-
         GameObject seule2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule2.transform.localScale = new Vector3(2, 14, 2);
         seule2.transform.Translate(10, 77, 274);
         seule2.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule2.name = "seule2";
 
-
         GameObject seule3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule3.transform.localScale = new Vector3(2, 14, 2);
         seule3.transform.Translate(-10, 77, 385);
         seule3.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule3.name = "seule3";
-  
 
         GameObject seule4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule4.transform.localScale = new Vector3(2, 14, 2);
         seule4.transform.Translate(10, 77, 385);
         seule4.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule4.name = "seule4";
-
     }
+
 
     void createStartpoint()
     {
@@ -203,27 +205,22 @@ public class Floor : MonoBehaviour
         start.name = "start";
     }
 
-
-
-
     void Start()
     {
-
         CreateGround();
 
         GameObject bridgeParent = new GameObject("Bridge");
         GameObject stairsParent = new GameObject("Stairs");
+
         CreateBridgeSkeleton(bridgeParent.transform);
 
         for (float i = stairsPos; i < 35; i++)
         {
             CreateStairs(stairsParent.transform);
             CreateBridge(bridgeParent.transform);
-
         }
 
         createStartpoint();
         CreatePlatforms();
     }
-
 }
