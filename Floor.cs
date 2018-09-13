@@ -7,7 +7,7 @@ public class Floor : MonoBehaviour
 
 
     private float bridgeZ = 278f;
-    private float stairsPos = 0f;
+       private float stairsPos = 0f;
     private float stairZ = 100f;
     private float stairY = 1f;
 
@@ -104,19 +104,23 @@ public class Floor : MonoBehaviour
         Platform(new Vector3(-90, 70, 800));
         Platform(new Vector3(-90, 70, 830));
         Platform(new Vector3(-90, 70, 860));
-        Platform(new Vector3(80, 70, 800));
-        Platform(new Vector3(50, 70, 830));
-        Platform(new Vector3(20, 70, 860));
+        Platform(new Vector3(80, 70, 800), false);
+        Platform(new Vector3(50, 70, 830), false);
+        Platform(new Vector3(20, 70, 860), false);
     }
 
-    void Platform(Vector3 pos)
+    void Platform(Vector3 pos, bool isFallingPlatform = true)
     {
         GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Cube);
         plane.transform.localScale = new Vector3(20, 4, 20);
         plane.transform.Translate(pos);
         plane.GetComponent<Renderer>().material.color = new Color(13 / 255f, 101 / 255f, 16 / 255f);
         plane.AddComponent<Rigidbody>().isKinematic = true;
-        plane.AddComponent<MovingPlatforms>().turnBackOnCollisionOnly = false;
+        if (isFallingPlatform)
+            plane.AddComponent<FallingPlatforms>();
+        else
+            plane.AddComponent<MovingPlatforms>().turnBackOnCollisionOnly = false;
+
         plane.name = "plane";
     }
 
@@ -187,6 +191,7 @@ public class Floor : MonoBehaviour
         seule3.transform.Translate(-10, 77, 385);
         seule3.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule3.name = "seule3";
+        seule3.transform.SetParent(parent);
 
         GameObject seule4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule4.transform.localScale = new Vector3(2, 14, 2);
@@ -195,7 +200,7 @@ public class Floor : MonoBehaviour
         seule4.name = "seule4";
     }
 
-
+   
     void createStartpoint()
     {
         GameObject start = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -205,22 +210,27 @@ public class Floor : MonoBehaviour
         start.name = "start";
     }
 
+
     void Start()
     {
+
+
         CreateGround();
 
         GameObject bridgeParent = new GameObject("Bridge");
         GameObject stairsParent = new GameObject("Stairs");
-
         CreateBridgeSkeleton(bridgeParent.transform);
 
         for (float i = stairsPos; i < 35; i++)
         {
             CreateStairs(stairsParent.transform);
             CreateBridge(bridgeParent.transform);
+
         }
+
 
         createStartpoint();
         CreatePlatforms();
     }
+
 }
