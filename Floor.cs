@@ -7,13 +7,14 @@ public class Floor : MonoBehaviour
 
 
     private float bridgeZ = 278f;
-       private float stairsPos = 0f;
+    private float stairsPos = 0f;
     private float stairZ = 100f;
     private float stairY = 1f;
 
     void CreateGround()
     {
-         //creating deadzone
+
+         // deadzone
          GameObject deadzone = new GameObject("Deadzone");
          deadzone.transform.position = new Vector3(100, -50, 750);
          deadzone.transform.localScale = new Vector3(1000, 4, 3000);
@@ -48,6 +49,14 @@ public class Floor : MonoBehaviour
         floor3.GetComponent<Renderer>().material.color = new Color(13 / 255f, 101 / 255f, 16 / 255f);
         floor3.tag = "Ground";
         floor3.name = "Boden3";
+
+        //Mauer trigger und Generierung von der Mauer
+        GameObject trigger = new GameObject("WallTrigger");
+        trigger.transform.Translate(60, 70, 680);
+        trigger.transform.eulerAngles = new Vector3(0, -22, 0);
+        trigger.transform.localScale = new Vector3(1, 60, 220);
+        trigger.AddComponent<WallTrigger>().firstBrickPosition = new Vector3(100, 74, 775);
+        trigger.AddComponent<BoxCollider>().isTrigger = true;
 
         GameObject floor4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         floor4.transform.localScale = new Vector3(200, 4, 200);
@@ -174,33 +183,38 @@ public class Floor : MonoBehaviour
         pMid.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         pMid.name = "pMid";
 
+
         GameObject seule1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule1.transform.localScale = new Vector3(2, 14, 2);
         seule1.transform.Translate(-10, 77, 274);
         seule1.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule1.name = "seule1";
 
+
         GameObject seule2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule2.transform.localScale = new Vector3(2, 14, 2);
         seule2.transform.Translate(10, 77, 274);
         seule2.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule2.name = "seule2";
+  
 
         GameObject seule3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule3.transform.localScale = new Vector3(2, 14, 2);
         seule3.transform.Translate(-10, 77, 385);
         seule3.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule3.name = "seule3";
-        seule3.transform.SetParent(parent);
+ 
 
         GameObject seule4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule4.transform.localScale = new Vector3(2, 14, 2);
         seule4.transform.Translate(10, 77, 385);
         seule4.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule4.name = "seule4";
+
     }
 
-   
+  
+
     void createStartpoint()
     {
         GameObject start = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -209,6 +223,8 @@ public class Floor : MonoBehaviour
         start.GetComponent<Renderer>().material.color = new Color(115 / 255f, 115 / 255f, 115 / 255f);
         start.name = "start";
     }
+
+
 
 
     void Start()
@@ -227,7 +243,6 @@ public class Floor : MonoBehaviour
             CreateBridge(bridgeParent.transform);
 
         }
-
 
         createStartpoint();
         CreatePlatforms();
