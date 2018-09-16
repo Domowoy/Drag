@@ -13,8 +13,7 @@ public class Floor : MonoBehaviour
 
     void CreateGround()
     {
-
-         // deadzone
+         //creating deadzone
          GameObject deadzone = new GameObject("Deadzone");
          deadzone.transform.position = new Vector3(100, -50, 750);
          deadzone.transform.localScale = new Vector3(1000, 4, 3000);
@@ -57,6 +56,13 @@ public class Floor : MonoBehaviour
         trigger.transform.localScale = new Vector3(1, 60, 220);
         trigger.AddComponent<WallTrigger>().firstBrickPosition = new Vector3(100, 74, 775);
         trigger.AddComponent<BoxCollider>().isTrigger = true;
+
+        // Bergentrigger und Generierung
+        GameObject mountainTrigger = new GameObject("mountainTrigger");
+        mountainTrigger.transform.position = new Vector3(-100, 90, 860);
+        mountainTrigger.transform.localScale = new Vector3(100, 60, 1);
+        mountainTrigger.AddComponent<MountainsTrigger>();
+        mountainTrigger.AddComponent<BoxCollider>().isTrigger = true;
 
         GameObject floor4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         floor4.transform.localScale = new Vector3(200, 4, 200);
@@ -158,6 +164,7 @@ public class Floor : MonoBehaviour
         bridge.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         bridge.GetComponent<Renderer>().material.name = "Lila";
         bridge.name = "bridge";
+
         bridgeZ = bridgeZ + 3;
 
     }
@@ -177,12 +184,12 @@ public class Floor : MonoBehaviour
         pRight.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         pRight.name = "pRight";
 
+
         GameObject pMid = GameObject.CreatePrimitive(PrimitiveType.Cube);
         pMid.transform.localScale = new Vector3(1.0f, 0.5f, 110);
         pMid.transform.Translate(0, 71.5f, 329);
         pMid.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         pMid.name = "pMid";
-
 
         GameObject seule1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule1.transform.localScale = new Vector3(2, 14, 2);
@@ -190,30 +197,25 @@ public class Floor : MonoBehaviour
         seule1.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule1.name = "seule1";
 
-
         GameObject seule2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule2.transform.localScale = new Vector3(2, 14, 2);
         seule2.transform.Translate(10, 77, 274);
         seule2.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule2.name = "seule2";
-  
 
         GameObject seule3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule3.transform.localScale = new Vector3(2, 14, 2);
         seule3.transform.Translate(-10, 77, 385);
         seule3.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule3.name = "seule3";
- 
 
         GameObject seule4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule4.transform.localScale = new Vector3(2, 14, 2);
         seule4.transform.Translate(10, 77, 385);
         seule4.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule4.name = "seule4";
-
     }
 
-  
 
     void createStartpoint()
     {
@@ -224,9 +226,6 @@ public class Floor : MonoBehaviour
         start.name = "start";
     }
 
-
-
-
     void Start()
     {
 
@@ -235,6 +234,8 @@ public class Floor : MonoBehaviour
 
         GameObject bridgeParent = new GameObject("Bridge");
         GameObject stairsParent = new GameObject("Stairs");
+
+
         CreateBridgeSkeleton(bridgeParent.transform);
 
         for (float i = stairsPos; i < 35; i++)
@@ -247,5 +248,4 @@ public class Floor : MonoBehaviour
         createStartpoint();
         CreatePlatforms();
     }
-
 }
