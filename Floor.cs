@@ -57,6 +57,25 @@ public class Floor : MonoBehaviour
         trigger.AddComponent<WallTrigger>().firstBrickPosition = new Vector3(100, 74, 775);
         trigger.AddComponent<BoxCollider>().isTrigger = true;
 
+        //Rollende Steine
+        GameObject parent = new GameObject("StoneSpawners");
+        for (int z = 405; z <= 780; z += 50)
+        {
+            GameObject spawner = new GameObject("StoneSpawner");
+            spawner.transform.SetParent(parent.transform);
+            spawner.transform.position = new Vector3(-120
+                , 74.1f, z);
+            spawner.AddComponent<StoneSpawner>().pos = Direction.Left;
+        }
+        for (int z = 430; z <= 780; z += 50)
+        {
+            GameObject spawner = new GameObject("StoneSpawner");
+            spawner.transform.SetParent(parent.transform);
+            spawner.transform.position = new Vector3(95, 74.1f, z);
+            spawner.AddComponent<StoneSpawner>().pos = Direction.Right;
+        }
+        
+        
         // Bergentrigger und Generierung
         GameObject mountainTrigger = new GameObject("mountainTrigger");
         mountainTrigger.transform.position = new Vector3(-100, 90, 860);
