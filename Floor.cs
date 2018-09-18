@@ -13,12 +13,12 @@ public class Floor : MonoBehaviour
 
     void CreateGround()
     {
-         //creating deadzone
-         GameObject deadzone = new GameObject("Deadzone");
-         deadzone.transform.position = new Vector3(100, -50, 750);
-         deadzone.transform.localScale = new Vector3(1000, 4, 3000);
-         deadzone.AddComponent<DeadZone>();
-         deadzone.AddComponent<BoxCollider>().isTrigger = true;
+        //creating deadzone
+        GameObject deadzone = new GameObject("Deadzone");
+        deadzone.transform.position = new Vector3(100, -50, 750);
+        deadzone.transform.localScale = new Vector3(1000, 4, 3000);
+        deadzone.AddComponent<DeadZone>();
+        deadzone.AddComponent<BoxCollider>().isTrigger = true;
 
         GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
         floor.transform.localScale = new Vector3(200, 4, 200);
@@ -57,7 +57,7 @@ public class Floor : MonoBehaviour
         trigger.AddComponent<WallTrigger>().firstBrickPosition = new Vector3(100, 74, 775);
         trigger.AddComponent<BoxCollider>().isTrigger = true;
 
-        //Rollende Steine
+        //creating stone spawners
         GameObject parent = new GameObject("StoneSpawners");
         for (int z = 405; z <= 780; z += 50)
         {
@@ -74,8 +74,7 @@ public class Floor : MonoBehaviour
             spawner.transform.position = new Vector3(95, 74.1f, z);
             spawner.AddComponent<StoneSpawner>().pos = Direction.Right;
         }
-        
-        
+
         // Bergentrigger und Generierung
         GameObject mountainTrigger = new GameObject("mountainTrigger");
         mountainTrigger.transform.position = new Vector3(-100, 90, 860);
@@ -112,12 +111,12 @@ public class Floor : MonoBehaviour
         floor7.name = "Boden7 ice";
 
         GameObject floor8 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        floor8.transform.localScale = new Vector3(30, 4, 30);
-        floor8.transform.Translate(200, 70, 1361);
+        floor8.transform.localScale = new Vector3(30, 4, 60);
+        floor8.transform.Translate(200, 70, 1340);
         floor8.GetComponent<Renderer>().material.color = new Color(13 / 255f, 101 / 255f, 16 / 255f);
         floor8.AddComponent<MovingPlatforms>().turnBackOnCollisionOnly = true;
-
         floor8.name = "Boden8";
+
         GameObject floor9 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         floor9.transform.localScale = new Vector3(200, 4, 200);
         floor9.transform.Translate(200, 70, 1480);
@@ -126,8 +125,8 @@ public class Floor : MonoBehaviour
         floor9.name = "Boden9";
 
         GameObject floor10 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        floor10.transform.localScale = new Vector3(30, 4, 30);
-        floor10.transform.Translate(200, 70, 1070);
+        floor10.transform.localScale = new Vector3(30, 4, 80);
+        floor10.transform.Translate(200, 70, 1040);
         floor10.GetComponent<Renderer>().material.color = new Color(13 / 255f, 101 / 255f, 16 / 255f);
         floor10.AddComponent<MovingPlatforms>().turnBackOnCollisionOnly = true;
         floor10.name = "Boden10";
@@ -184,6 +183,7 @@ public class Floor : MonoBehaviour
         bridge.GetComponent<Renderer>().material.name = "Lila";
         bridge.name = "bridge";
 
+
         bridgeZ = bridgeZ + 3;
 
     }
@@ -196,6 +196,7 @@ public class Floor : MonoBehaviour
         pLeft.transform.Translate(-10, 82, 329);
         pLeft.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         pLeft.name = "pLeft";
+
 
         GameObject pRight = GameObject.CreatePrimitive(PrimitiveType.Cube);
         pRight.transform.localScale = new Vector3(0.5f, 0.5f, 110);
@@ -210,11 +211,13 @@ public class Floor : MonoBehaviour
         pMid.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         pMid.name = "pMid";
 
+
         GameObject seule1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule1.transform.localScale = new Vector3(2, 14, 2);
         seule1.transform.Translate(-10, 77, 274);
         seule1.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule1.name = "seule1";
+
 
         GameObject seule2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule2.transform.localScale = new Vector3(2, 14, 2);
@@ -222,19 +225,21 @@ public class Floor : MonoBehaviour
         seule2.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule2.name = "seule2";
 
+
         GameObject seule3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule3.transform.localScale = new Vector3(2, 14, 2);
         seule3.transform.Translate(-10, 77, 385);
         seule3.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule3.name = "seule3";
 
+
         GameObject seule4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule4.transform.localScale = new Vector3(2, 14, 2);
         seule4.transform.Translate(10, 77, 385);
         seule4.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule4.name = "seule4";
-    }
 
+    }
 
     void createStartpoint()
     {
@@ -245,14 +250,21 @@ public class Floor : MonoBehaviour
         start.name = "start";
     }
 
+
+    static Floor instance;
+
     void Start()
     {
+        canSpawnTree = true;
 
+        instance = this;
 
         CreateGround();
 
         GameObject bridgeParent = new GameObject("Bridge");
         GameObject stairsParent = new GameObject("Stairs");
+        GameObject treesParent = new GameObject("Trees");
+        treesParent.AddComponent<Rigidbody>().isKinematic = true;
 
 
         CreateBridgeSkeleton(bridgeParent.transform);
@@ -267,4 +279,56 @@ public class Floor : MonoBehaviour
         createStartpoint();
         CreatePlatforms();
     }
+
+
+  
+    static bool canSpawnTree = true; //Jede Sekunde verteilen
+
+    public static void SpawnTrees(Vector3 mingoPos)
+    {
+        if (canSpawnTree)
+        {
+            int i = Random.value > 0.5f ? -1 : 1;
+            Vector3 pos = new Vector3(mingoPos.x + Random.Range(15, 50) * i, mingoPos.y, mingoPos.z + Random.Range(0, 50));
+            SpawnTree(pos);
+            instance.StartCoroutine(ReactivateTreeSpawn());
+        }
+    }
+
+    static void SpawnTree(Vector3 pos)
+    {
+        //Falls Baum den Boden nicht berührt nicht verteilen
+        bool isTouchingGround = false;
+        foreach (Collider coll in Physics.OverlapBox(pos, new Vector3(.1f, 10, .1f), Quaternion.identity))
+        {
+            if (coll.CompareTag("Ground"))
+            {
+                isTouchingGround = true;
+                break;
+            }
+        }
+        if (!isTouchingGround)
+            return;
+
+        GameObject baum = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        baum.transform.localScale = new Vector3(20, 30, 20);
+        baum.transform.position = new Vector3(pos.x, pos.y + 20 + Random.value * 10, pos.z);
+        baum.GetComponent<Renderer>().material.color = new Color(115 / 255f, 252 / 255f, 119 / 255f);
+        baum.name = "Baum";
+        GameObject stamm = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        stamm.transform.localScale = new Vector3(2, 40, 2);
+        stamm.transform.position = pos;
+        stamm.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
+        stamm.name = "Baum";
+        baum.transform.parent = stamm.transform;
+    }
+
+
+    static IEnumerator ReactivateTreeSpawn()
+    {
+        canSpawnTree = false;
+        yield return new WaitForSeconds(0.25f);
+        canSpawnTree = true;
+    }
+
 }
