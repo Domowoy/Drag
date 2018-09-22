@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour
 {
-
-
     private float bridgeZ = 278f;
     private float stairsPos = 0f;
     private float stairZ = 100f;
     private float stairY = 1f;
+	private Rigidbody rg;
 
     void CreateGround()
     {
+        
+
+
         //creating deadzone
         GameObject deadzone = new GameObject("Deadzone");
         deadzone.transform.position = new Vector3(100, -50, 750);
@@ -107,6 +109,7 @@ public class Floor : MonoBehaviour
         floor7.transform.localScale = new Vector3(200, 4, 200);
         floor7.transform.Translate(190, 70, 1195);
         floor7.GetComponent<Renderer>().material.color = new Color(255 / 255f, 255 / 255f, 255 / 255f);
+        floor7.AddComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         floor7.tag = "Ice";
         floor7.name = "Boden7 ice";
 
@@ -181,8 +184,10 @@ public class Floor : MonoBehaviour
         bridge.transform.Translate(0, 72, bridgeZ);
         bridge.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         bridge.GetComponent<Renderer>().material.name = "Lila";
+        bridge.AddComponent<BridgeBrick>();
+        bridge.AddComponent<Rigidbody>().isKinematic = true;
         bridge.name = "bridge";
-
+        bridge.transform.SetParent(parent);
 
         bridgeZ = bridgeZ + 3;
 
@@ -196,7 +201,7 @@ public class Floor : MonoBehaviour
         pLeft.transform.Translate(-10, 82, 329);
         pLeft.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         pLeft.name = "pLeft";
-
+ 
 
         GameObject pRight = GameObject.CreatePrimitive(PrimitiveType.Cube);
         pRight.transform.localScale = new Vector3(0.5f, 0.5f, 110);
@@ -207,17 +212,26 @@ public class Floor : MonoBehaviour
 
         GameObject pMid = GameObject.CreatePrimitive(PrimitiveType.Cube);
         pMid.transform.localScale = new Vector3(1.0f, 0.5f, 110);
-        pMid.transform.Translate(0, 71.5f, 329);
+        pMid.transform.Translate(3, 71.5f, 329);
         pMid.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         pMid.name = "pMid";
 
+
+        //trigger
+
+        GameObject trigger = new GameObject("BridgeTrigger", typeof(BridgeTrigger));
+        trigger.transform.SetParent(parent, true);
+        trigger.AddComponent<BoxCollider>().isTrigger = true;
+        trigger.transform.position = pMid.transform.position;
+        trigger.transform.Translate(0, 6, 20);
+        trigger.transform.localScale = new Vector3(18, 10, 1);
 
         GameObject seule1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule1.transform.localScale = new Vector3(2, 14, 2);
         seule1.transform.Translate(-10, 77, 274);
         seule1.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule1.name = "seule1";
-
+        
 
         GameObject seule2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule2.transform.localScale = new Vector3(2, 14, 2);
@@ -225,21 +239,20 @@ public class Floor : MonoBehaviour
         seule2.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule2.name = "seule2";
 
-
         GameObject seule3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule3.transform.localScale = new Vector3(2, 14, 2);
         seule3.transform.Translate(-10, 77, 385);
         seule3.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule3.name = "seule3";
 
-
         GameObject seule4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         seule4.transform.localScale = new Vector3(2, 14, 2);
         seule4.transform.Translate(10, 77, 385);
         seule4.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule4.name = "seule4";
-
     }
+
+
 
     void createStartpoint()
     {
@@ -255,6 +268,7 @@ public class Floor : MonoBehaviour
 
     void Start()
     {
+
         canSpawnTree = true;
 
         instance = this;
@@ -280,9 +294,7 @@ public class Floor : MonoBehaviour
         CreatePlatforms();
     }
 
-
-  
-    static bool canSpawnTree = true; //Jede Sekunde verteilen
+    static bool canSpawnTree = true; //Baume einmal pro sekunde verteilt
 
     public static void SpawnTrees(Vector3 mingoPos)
     {
@@ -297,7 +309,7 @@ public class Floor : MonoBehaviour
 
     static void SpawnTree(Vector3 pos)
     {
-        //Falls Baum den Boden nicht berührt nicht verteilen
+        //falls Baum nicht den Boden kontaktiert nicht verteilen
         bool isTouchingGround = false;
         foreach (Collider coll in Physics.OverlapBox(pos, new Vector3(.1f, 10, .1f), Quaternion.identity))
         {
