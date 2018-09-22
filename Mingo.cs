@@ -11,6 +11,7 @@ public class Mingo : MonoBehaviour
     public float turnSpeed;
     public float jumpSpeed;
     [Range(0.01f, 1f)]
+    public float iceFriction;
     public static Rigidbody rb;
     bool isColliding = false;
     bool disableJump = false;
@@ -19,17 +20,20 @@ public class Mingo : MonoBehaviour
     {
         anim = gameObject.GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
+        iceFriction = 1;
     }
 
     Vector3 previousMoveDirection;
+ 
     void FixedUpdate()
     {
         Vector3 moveDirection = Vector3.zero;
 
         if (Input.GetKey("w"))
         {
+
             if (isColliding)
-                  Floor.SpawnTrees(rb.position);
+                Floor.SpawnTrees(rb.position);
 
             anim.SetInteger("AnimPar", 1);
             moveDirection = transform.forward * walkSpeed * Input.GetAxis("Vertical");
@@ -44,10 +48,15 @@ public class Mingo : MonoBehaviour
         else
         {
             anim.SetInteger("AnimPar", 0);
+            if (isOnIce)
+            {
+                previousMoveDirection = previousMoveDirection * iceFriction;
+                moveDirection = previousMoveDirection;
+            }
         }
 
 
-        if (!disableJump)
+        if (isColliding && !disableJump)
         {
             if (Input.GetKey("space"))
             {
@@ -63,12 +72,16 @@ public class Mingo : MonoBehaviour
         rb.MovePosition(rb.position + moveDirection);
 
         isColliding = false;
+        isOnIce = false;
 
     }
 
+    bool isOnIce;
     private void OnCollisionStay(Collision collision)
     {
         isColliding = true;
+        if (collision.gameObject.CompareTag("Ice"))
+            isOnIce = true;
     }
 
     IEnumerator ActivateJumpDelayed()
