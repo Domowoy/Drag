@@ -251,7 +251,42 @@ public class Floor : MonoBehaviour
         seule4.GetComponent<Renderer>().material.color = new Color(100 / 255f, 51 / 255f, 9 / 255f);
         seule4.name = "seule4";
     }
+    //Käfig für Luna
+    void CreateCage()
+    {
+        float yPosCage = 74;
+        for (int i = 0; i <= 4; i++)
+        {
+            GameObject cage = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cage.transform.localScale = new Vector3(12, 1, 1);
+            cage.transform.Translate(200.42f, yPosCage, 1546.94f);
+            cage.GetComponent<Renderer>().material.color = new Color(0, 0, 0);
+            cage.name = "Cage";
 
+            GameObject cageNext = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cageNext.transform.localScale = new Vector3(12, 1, 1);
+            cageNext.transform.Translate(200.42f, yPosCage, 1556.64f);
+            cageNext.GetComponent<Renderer>().material.color = new Color(0, 0, 0);
+            cageNext.name = "CageNext";
+
+            GameObject cage2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cage2.transform.localScale = new Vector3(12, 1, 1);
+            cage2.transform.Translate(205.2f, yPosCage, 1551.94f);
+            cage2.transform.Rotate(0, 90, 0);
+            cage2.GetComponent<Renderer>().material.color = new Color(0, 0, 0);
+            cage2.name = "Cage2";
+
+            GameObject cage2Next = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            cage2Next.transform.localScale = new Vector3(12, 1, 1);
+            cage2Next.transform.Translate(195.71f, yPosCage, 1551.94f);
+            cage2Next.transform.Rotate(0, 90, 0);
+            cage2Next.GetComponent<Renderer>().material.color = new Color(0, 0, 0);
+            cage2Next.name = "Cage2Next";
+
+            yPosCage += 2.71f;
+        }
+
+    }
 
 
     void createStartpoint()
